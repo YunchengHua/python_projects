@@ -68,13 +68,7 @@ def shopping():
         item_buy_split = item_buy.split(' ')
 
         if len(item_buy_split) == 2:
-            if item_buy_split[0] in ['q', 'Q']:
-                db[current_user['user']]['money'] = money
-                common.save_db(db)
-                print('You Bought：', items_bought_dic)
-                print('Balance：', money)
-                break
-            elif item_buy_split[0] in items_dict:
+            if item_buy_split[0] in items_dict:
                 item, item_num = item_buy_split[0], item_buy_split[1]
                 item_price = items_dict[item] * int(item_num)
                 print(item, ':', item_num, 'spent $%d' % item_price)
@@ -89,6 +83,14 @@ def shopping():
                     print('Insufficient balance')
             else:
                 print('Item does not exit.')
+        elif item_buy_split[0] in ['q', 'Q']:
+                db[current_user['user']]['money'] = money
+                common.save_db(db)
+                print('You Bought：')
+                for v in items_bought_dic:
+                    print(v)
+                print('Balance：', money)
+                break
         else:
             print('You should input like (name number),you should seperate by space')
 
