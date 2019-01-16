@@ -66,27 +66,31 @@ def shopping():
     while True:
         item_buy = input('Which do you want to buy?>>').strip()
         item_buy_split = item_buy.split(' ')
-        if item_buy_split[0] in ['q', 'Q']:
-            db[current_user['user']]['money'] = money
-            common.save_db(db)
-            print('You Bought：', items_bought_dic)
-            print('Balance：', money)
-            break
-        elif item_buy_split[0] in items_dict:
-            item, item_num = item_buy_split[0], item_buy_split[1]
-            item_price = items_dict[item] * int(item_num)
-            print(item, ':', item_num, 'spent $%d' % item_price)
-            if item_price <= money:
-                money -= item_price
-                logger.info('%s bought %s,and $%d left'%(current_user['user'],item,money))
-                if item in items_bought_dic:
-                    items_bought_dic[item] += item_num
+
+        if len(item_buy_split) == 2:
+            if item_buy_split[0] in ['q', 'Q']:
+                db[current_user['user']]['money'] = money
+                common.save_db(db)
+                print('You Bought：', items_bought_dic)
+                print('Balance：', money)
+                break
+            elif item_buy_split[0] in items_dict:
+                item, item_num = item_buy_split[0], item_buy_split[1]
+                item_price = items_dict[item] * int(item_num)
+                print(item, ':', item_num, 'spent $%d' % item_price)
+                if item_price <= money:
+                    money -= item_price
+                    logger.info('%s bought %s,and $%d left'%(current_user['user'],item,money))
+                    if item in items_bought_dic:
+                        items_bought_dic[item] += item_num
+                    else:
+                        items_bought_dic[item] = item_num
                 else:
-                    items_bought_dic[item] = item_num
+                    print('Insufficient balance')
             else:
-                print('Insufficient balance')
+                print('Item does not exit.')
         else:
-            print('Item does not exit.')
+            print('You should input like (name number),you should seperate by space')
 
 @log_in
 def balance_operation(opt):
