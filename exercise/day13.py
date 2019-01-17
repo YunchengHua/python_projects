@@ -1,16 +1,28 @@
-class DeepshareStudent:
-    school = 'deepshare'
-    print('=====>')
-    def __init__(self):
-        print('====init run===>')
+class Student:
 
-    def learn(self):
-        print('%s is learning' % self)
+    def __init__(self,subjects={},name='',gender='male'):
+        self.subjects = subjects
+        self.name = name
+        self.gender = gender
 
-    def eat(self):
-        print('is eating')
+    def average_score(self):
+        sum = 0
+        for k,v in self.subjects.items():
+            sum += v
+        return (sum/len(self.subjects))
 
-    def sleep(self):
-        print('is sleeping')
+    def get_subject_score(self,subject_name):
+        return self.subjects.get(subject_name)
 
-DeepshareStudent()
+    def add_subject(self,name,score):
+        self.subjects[name] = score
+
+    def get_all_subjects(self):
+        return self.subjects
+
+    def change_subject_score(self,name,score):
+        self.subjects[name] = score
+
+    def delete_subject_score(self,name):
+        if name in self.subjects:
+            self.subjects.pop(name)
